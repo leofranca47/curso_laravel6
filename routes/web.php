@@ -11,30 +11,34 @@
 |
  */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'HomeController@welcome');
+
+Route::get('/produto', 'ProductController@index');
+
+Route::get('/login', function () {
+    return 'Login';
 });
 
-Route::get("/teste", function () {
-    return "deu certo doido";
-});
+// Route::get("/teste", function () {
+//     return "deu certo doido";
+// });
 
-Route::get("/contact", function () {
-    return view('contact');
-});
+// Route::get("/contact", function () {
+//     return view('contact');
+// });
 
-Route::get("/amor", function () {
-    return view("amor");
-});
+// Route::get("/amor", function () {
+//     return view("amor");
+// });
 
-Route::post("/testePost/{id}", function ($request, $response) {
-    return $response . status(200) . json($request);
-});
+// Route::post("/testePost/{id}", function ($request, $response) {
+//     return $response . status(200) . json($request);
+// });
 
-Route::namespace ('Admin')->group(function () {
-    Route::prefix('control')->group(function () {
-        Route::get('/', 'TesteController@teste');
-        Route::get('/wel', 'TesteController@welcome');
-    });
+// Route::namespace ('Admin')->group(function () {
+//     Route::prefix('control')->group(function () {
+//         Route::get('/', 'TesteController@teste');
+//         Route::get('/wel', 'TesteController@welcome');
+//     });
 
-});
+// });
