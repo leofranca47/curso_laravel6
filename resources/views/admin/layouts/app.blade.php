@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lili</title>
+    <title>Laravel - @yield('title')</title>
 </head>
 <body>
-    <h1>Liliane meu amor</h1>
+    <h1>@yield('titleBody')</h1>
+    
+    <div class="container">
+        @yield('content')
+    </div>
 </body>
 </html>

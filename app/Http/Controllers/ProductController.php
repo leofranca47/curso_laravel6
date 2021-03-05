@@ -19,7 +19,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return "lista de produtos";
+        $products = ['Cera', 'detergente', 'bucha'];
+        return view('admin.pages.products.products', compact('products'));
     }
 
     /**
@@ -29,7 +30,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.products.create');
     }
 
     /**
@@ -40,7 +41,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd('Cadastrando');
     }
 
     /**
@@ -62,7 +63,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $id1 = $id;
+        return view('admin.pages.products.edit', compact('id'));
     }
 
     /**
@@ -74,7 +76,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd("editando produto {$id}");
     }
 
     /**
