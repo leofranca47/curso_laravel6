@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateProductRequest;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -20,7 +21,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = ['Cera', 'detergente', 'bucha'];
-        return view('admin.pages.products.products', compact('products'));
+        return view('admin.pages.products.index', compact('products'));
     }
 
     /**
@@ -36,12 +37,16 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Requests\StoreProductsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateProductRequest $request)
     {
-        dd('Cadastrando');
+
+        if ($request->photo->isValid()) {
+            $nameImage = $request->name . "." . $request->photo->extension();
+            dd($request->file('photo')->storeAs('products', $nameImage));
+        }
     }
 
     /**
