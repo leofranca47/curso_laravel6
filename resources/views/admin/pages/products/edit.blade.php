@@ -4,13 +4,10 @@
 
     
 @section('content')
-    <h1>Editar Produtos {{$id}}</h1>
+    <h1>Editar Produtos {{$product->name}}</h1>
 
-    <form action="{{route('products.update', $id)}}" method="post">
+    <form action="{{route('products.update', $product->id)}}" method="post">
         @method('PUT')
-        @csrf
-        <input type="text" placeholder="Nome">
-        <input type="text" placeholder="text">
-        <button type="submit">Cadastrar</button>
+        @include('admin.layouts.form')
     </form>
 @endsection
