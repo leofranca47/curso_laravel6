@@ -13,6 +13,8 @@
 
 Route::get('/', 'HomeController@welcome');
 
+Route::any('products/search', 'ProductController@search')->name('products.search');
+
 Route::resource('products', 'ProductController');
 /*rotas criadas, mas conseguimos utilizar apenas o resource para chamar as rotas
 Route::delete('products/{id}', 'ProductController@destroy')->name('products.destroy');

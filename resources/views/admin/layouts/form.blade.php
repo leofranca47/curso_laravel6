@@ -12,5 +12,11 @@
     <input class="form-control" type="file" name="image">
 </div>
 <div class="form-group">
-    <button class="btn btn-primary" type="submit">Cadastrar</button>
+    <button class="btn btn-primary" type="submit">
+        @if (isset($product))
+            Editar
+        @else
+            Cadastrar
+        @endif
+    </button>
 </div>
