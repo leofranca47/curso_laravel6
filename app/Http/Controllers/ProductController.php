@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -48,6 +49,17 @@ class ProductController extends Controller
     public function store(StoreUpdateProductRequest $request)
     {
         $data = $request->only('name', 'description', 'price');
+
+        if ($request->hasFile('image') && $request->image->isValid()) {
+            $namefile = $request->name . '.' . $request->image->extension();
+            $imagePath = $request->image->storeAs('products', $namefile);
+
+            $data['image'] = $imagePath;
+        }
+
+        if ($prod = Product::where('name', $request->name)->first()) {
+            return $this->update($request, $prod->id);
+        }
 
         $product = $this->repository::create($data);
 
@@ -96,13 +108,26 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateProductRequest $request, $id)
     {
         $product = $this->repository::find($id);
         if (!$product) {
             return redirect()->back();
         }
-        $product->update($request->all());
+
+        $data = $request->all();
+
+        if ($request->hasFile('image') && $request->image->isValid()) {
+
+            Storage::delete($product->image);
+            // $imagePath = $request->image->store('products');
+            $namefile = $request->name . '.' . $request->image->extension();
+            $imagePath = $request->image->storeAs('products', $namefile);
+
+            $data['image'] = $imagePath;
+        }
+
+        $product->update($data);
         return redirect()->route('products.index');
     }
 
@@ -119,6 +144,10 @@ class ProductController extends Controller
             return redirect()->back();
         }
 
+        if ($product->image && Storage::exists($product->image)) {
+            Storage::delete($product->image);
+        }
+
         $product->delete();
         return redirect()->route('products.index');
     }
@@ -132,7 +161,6 @@ class ProductController extends Controller
         return view('admin.pages.products.index', [
             'products' => $products,
             'filters' => $filters,
-            'filter' => $filters['filter'],
         ]);
     }
 }

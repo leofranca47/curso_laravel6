@@ -10,7 +10,7 @@
     <hr>
     <form action="{{ route('products.search') }}" method="POST">
         @csrf
-        <input type="text" name="filter" placeholder="Filtrar" value="{{ $filter ?? '' }}">
+        <input type="text" name="filter" placeholder="Filtrar" value="{{ $filters['filter'] ?? '' }}">
         <button type="submit" class="btn btn-info">Pesquisar</button>
     </form>
     <hr>
@@ -18,14 +18,20 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th width="100px">Imagem</th>
                 <th>Nome</th>
                 <th>Preço</th>
-                <th width="100">Ações</th>
+                <th width="100px">Ações</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($products as $product)
                 <tr>
+                    <td>
+                        @if ($product->image)
+                            <img src="{{ url("storage/{$product->image}") }}" alt="{{ $product->name }}" width="40px">
+                        @endif
+                    </td>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->price }}</td>
                     <td>
