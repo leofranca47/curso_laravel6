@@ -50,15 +50,15 @@ class ProductController extends Controller
     {
         $data = $request->only('name', 'description', 'price');
 
+        if ($id = $this->repository->verifyProductsExist($request->name)) {
+            return $this->update($request, $id);
+        }
+
         if ($request->hasFile('image') && $request->image->isValid()) {
             $namefile = $request->name . '.' . $request->image->extension();
             $imagePath = $request->image->storeAs('products', $namefile);
 
             $data['image'] = $imagePath;
-        }
-
-        if ($prod = Product::where('name', $request->name)->first()) {
-            return $this->update($request, $prod->id);
         }
 
         $product = $this->repository::create($data);
